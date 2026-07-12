@@ -18,7 +18,9 @@ CREATE TABLE DOCTORS (
 ('Dr. Sarah Ahmed',    '01012345678', 'sarah.ahmed@hospital.com',   'hashed_pw_1', 'Cardiology',    150.00, 25000.00, '2019-03-14'),
 ('Dr. Omar Khaled',    '01098765432', 'omar.khaled@hospital.com',  'hashed_pw_2', 'Pediatrics',    120.00, 20000.00, '2020-07-01'),
 ('Dr. Mona Farid',     '01122334455', 'mona.farid@hospital.com',   'hashed_pw_3', 'Dermatology',   130.00, 22000.00, '2021-01-20'),
-('Dr. Karim Youssef',  '01234567890', 'karim.youssef@hospital.com','hashed_pw_4', 'Orthopedics',   140.00, 24000.00, '2018-11-05');
+('Dr. Karim Youssef',  '01234567890', 'karim.youssef@hospital.com','hashed_pw_4', 'Orthopedics',   140.00, 24000.00, '2018-11-05'),
+('Dr. Yasmine Ali',    '01011223344', 'yasmine.ali@hospital.com',  'hashed_pw_9', 'Neurology',    160.00, 32000.00, '2022-05-10'),
+('Dr. Tarek Hassan',   '01555443322', 'tarek.hassan@hospital.com', 'hashed_pw_10', 'Ophthalmology', 135.00, 27000.00, '2021-09-15');
 
 
 
@@ -34,7 +36,9 @@ CREATE TABLE ROOMS (
 (1, '101', 1, 'Occupied'),
 (2, '102', 1, 'Available'),
 (3, '201', 2, 'Occupied'),
-(4, '202', 2, 'Available');
+(4, '202', 2, 'Available'),
+(5, '301', 3, 'Available'),
+(6, '302', 3, 'Available');
 
 
 
@@ -59,7 +63,9 @@ CREATE TABLE PATIENTS (
 ('Ahmed Hassan',  '01011122233', 'Male',   '1990-05-12', 'O+',  'Consultation', 'ahmed.hassan@mail.com',  'hashed_pw_5', 1),
 ('Laila Mostafa', '01099988877', 'Female', '1985-09-23', 'A-',  'Follow-up',    'laila.mostafa@mail.com', 'hashed_pw_6', 2),
 ('Youssef Adel',  '01155566677', 'Male',   '2000-02-08', 'B+',  'Emergency',    'youssef.adel@mail.com',  'hashed_pw_7', 3),
-('Nour Ibrahim',  '01277788899', 'Female', '1995-12-30', 'AB+', 'Consultation', 'nour.ibrahim@mail.com',  'hashed_pw_8', NULL);
+('Nour Ibrahim',  '01277788899', 'Female', '1995-12-30', 'AB+', 'Consultation', 'nour.ibrahim@mail.com',  'hashed_pw_8', NULL),
+('Zainab Selim',  '01055544433', 'Female', '1992-04-15', 'O-',  'Consultation', 'zainab.selim@mail.com',  'hashed_pw_11', NULL),
+('Mostafa Amr',   '01211122233', 'Male',   '1988-11-20', 'A+',  'Follow-up',    'mostafa.amr@mail.com',   'hashed_pw_12', 4);
 
 
 
@@ -86,7 +92,13 @@ CREATE TABLE APPOINTMENTS (
 ('Completed',  'Routine child checkup','2026-06-12 11:00:00', 2, 2),
 ('Scheduled',  'Skin rash evaluation', '2026-07-05 14:00:00', 3, 3),
 ('Cancelled',  'Knee pain assessment', '2026-06-20 10:15:00', 4, 4),
-('Completed',  'Knee pain assessment', '2026-06-20 10:15:00', 4, 4);
+('Completed',  'Knee pain assessment', '2026-06-20 10:15:00', 4, 4),
+('Scheduled',  'Neurological checkup', '2026-07-15 09:00:00', 5, 5),
+('Completed',  'Eye checkup',          '2026-07-10 11:30:00', 6, 6),
+('Scheduled',  'Cardiology checkup',   '2026-07-20 10:00:00', 1, 1),
+('Scheduled',  'Routine general exam', '2026-07-22 12:00:00', 2, 2),
+('Completed',  'Dental cleaning',      '2026-07-11 14:00:00', 3, 3),
+('Scheduled',  'Dermatology checkup',  '2026-07-25 15:30:00', 4, 3);
  
 
 
@@ -112,7 +124,9 @@ CREATE TABLE BILLS (
 (500.00, 500.00,  'Credit Card', 'Paid',    '2026-06-10', '2026-06-10', 5),
 (300.00, 150.00,  'Cash',        'Unpaid', '2026-06-12', '2026-06-12', 6),
 (450.00, 0.00, 'Insurance',   'Unpaid',  '2026-07-05', NULL,7),
-(300.00, 500.00,  'Cash', 'Paid', '2026-06-12', '2026-06-12', 9);
+(300.00, 500.00,  'Cash', 'Paid', '2026-06-12', '2026-06-12', 9),
+(200.00, 200.00,  'Debit Card',  'Paid',   '2026-07-11', '2026-07-11', 10),
+(400.00, 0.00,    'Cash',        'Unpaid', '2026-07-25', NULL,         11);
 
 
 
@@ -133,7 +147,9 @@ CREATE TABLE PRESCRIPTIONS (
  INSERT INTO PRESCRIPTIONS (MedicineName, Dosage_MgML, Frequency_PerDay, Duration_Weeks, AppointmentID) VALUES
 ('Amlodipine',   5.00,  1, 4, 5),
 ('Paracetamol',  250.00, 3, 1, 6),
-('Hydrocortisone Cream', 1.00, 2, 2, 7);
+('Hydrocortisone Cream', 1.00, 2, 2, 7),
+('Amoxicillin',  500.00, 3, 1, 10),
+('Ibuprofen',    400.00, 2, 1, 11);
 
 
 
@@ -156,7 +172,9 @@ INSERT INTO Patient_Doctor_Consultation (DoctorID, PatientID) VALUES
 (1, 1),
 (2, 2),
 (3, 3),
-(1, 4);
+(1, 4),
+(5, 5),
+(6, 6);
 
 
 
@@ -340,10 +358,6 @@ DELIMITER ;
 
 -- end of triggers *****************
 
-
-
-
-
 -- checking if my triggers work *****************
 
 -- 1) checking if  Update_Bills works correctly 
@@ -378,4 +392,206 @@ where PatientID = 3;
 
 
 -- end of checking if my triggers work *****************
+
+
+
+
+-- start of views *****************
+
+-- 1) Shows each doctor's upcoming appointments with patient names (hides raw IDs)
+CREATE VIEW Doctor_Schedule_View AS
+SELECT 
+    d.FullName AS DoctorName,
+    p.FullName AS PatientName,
+    a.AppointmentDate,
+    a.AppointmentStatus,
+    a.Diagnosis
+FROM APPOINTMENTS a
+JOIN PATIENTS p ON a.PatientID = p.PatientID
+JOIN DOCTORS d ON a.DoctorID = d.DoctorID
+WHERE a.AppointmentDate >= NOW() OR a.AppointmentStatus = 'Scheduled';
+
+-- 2) Shows each patient's total owed and paid across all their bills
+CREATE VIEW Patient_Bill_Summary_View AS
+SELECT 
+    p.PatientID,
+    p.FullName AS PatientName,
+    SUM(b.TotalAmount) AS TotalBilled,
+    SUM(b.PaidAmount) AS TotalPaid,
+    SUM(b.RemainingBalance) AS TotalOwed
+FROM PATIENTS p
+JOIN APPOINTMENTS a ON p.PatientID = a.PatientID
+JOIN BILLS b ON a.AppointmentID = b.AppointmentID
+GROUP BY p.PatientID, p.FullName;
+
+-- 3) Shows which patient occupies each room right now (if any)
+CREATE VIEW Room_Occupancy_View AS
+SELECT 
+    r.RoomID,
+    r.RoomNumber,
+    r.FloorNumber,
+    r.AvailabilityStatus,
+    p.PatientID,
+    p.FullName AS PatientName
+FROM ROOMS r
+LEFT JOIN PATIENTS p ON r.RoomID = p.RoomID;
+
+-- 4) Shows doctors with their salary, sorted by Speciality
+CREATE VIEW Doctor_Earnings_View AS
+SELECT 
+    FullName AS DoctorName,
+    Speciality,
+    Salary
+FROM DOCTORS
+ORDER BY Speciality, Salary DESC;
+
+-- end of views *****************
+
+
+
+
+-- checking if my views work *****************
+select * from Doctor_Schedule_View;
+select * from Patient_Bill_Summary_View;
+select * from Room_Occupancy_View;
+select * from Doctor_Earnings_View;
+-- end of checking if my views work *****************
+
+
+
+-- start of stored procedures *****************
+
+-- 1) Inserts a new appointment
+DELIMITER //
+CREATE PROCEDURE AddNewAppointment(
+    IN p_PatientID INT,
+    IN p_DoctorID INT,
+    IN p_Diagnosis VARCHAR(255)
+)
+BEGIN
+    INSERT INTO APPOINTMENTS (AppointmentStatus, Diagnosis, AppointmentDate, PatientID, DoctorID)
+    VALUES ('Scheduled', p_Diagnosis, NOW(), p_PatientID, p_DoctorID);
+END //
+DELIMITER ;
+
+-- 2) Discharges a patient by setting Room_use = 0 (cascades to free the room)
+DELIMITER //
+CREATE PROCEDURE DischargePatient(
+    IN p_PatientID INT
+)
+BEGIN
+    UPDATE PATIENTS
+    SET Room_use = 0
+    WHERE PatientID = p_PatientID;
+END //
+DELIMITER ;
+
+-- 3) Returns all appointments, prescriptions, and bills for one patient
+DELIMITER //
+CREATE PROCEDURE GetPatientHistory(
+    IN p_PatientID INT
+)
+BEGIN
+    -- Patient Info
+    SELECT PatientID, FullName, Phone, Email, BloodType, RoomID, Room_use
+    FROM PATIENTS
+    WHERE PatientID = p_PatientID;
+
+    -- Appointments Info
+    SELECT AppointmentID, AppointmentStatus, Diagnosis, AppointmentDate, DoctorID
+    FROM APPOINTMENTS
+    WHERE PatientID = p_PatientID;
+
+    -- Prescriptions Info
+    SELECT pr.PrescriptionID, pr.MedicineName, pr.Dosage_MgML, pr.Frequency_PerDay, pr.Duration_Weeks, pr.AppointmentID
+    FROM PRESCRIPTIONS pr
+    JOIN APPOINTMENTS a ON pr.AppointmentID = a.AppointmentID
+    WHERE a.PatientID = p_PatientID;
+
+    -- Bills Info
+    SELECT b.BillID, b.TotalAmount, b.PaidAmount, b.RemainingBalance, b.ChangeAmount, b.PaymentMethod, b.PaymentStatus, b.BillDate, b.PaymentDate, b.AppointmentID
+    FROM BILLS b
+    JOIN APPOINTMENTS a ON b.AppointmentID = a.AppointmentID
+    WHERE a.PatientID = p_PatientID;
+END //
+DELIMITER ;
+
+-- 4) Processes a payment on a bill, which triggers balance recalculation
+DELIMITER //
+CREATE PROCEDURE ProcessPayment(
+    IN p_BillID INT,
+    IN p_AmountPaid DECIMAL(10,2)
+)
+BEGIN
+    UPDATE BILLS
+    SET PaidAmount = PaidAmount + p_AmountPaid,
+        PaymentDate = NOW()
+    WHERE BillID = p_BillID;
+END //
+DELIMITER ;
+
+-- 5) Assigns a doctor to a patient in the consultation table
+DELIMITER //
+CREATE PROCEDURE AssignDoctorToPatient(
+    IN p_DoctorID INT,
+    IN p_PatientID INT
+)
+BEGIN
+    INSERT INTO Patient_Doctor_Consultation (DoctorID, PatientID)
+    VALUES (p_DoctorID, p_PatientID);
+END //
+DELIMITER ;
+
+-- end of stored procedures *******************
+
+
+
+
+-- checking if my stored procedures work *****************
+
+-- 1) Add new appointment
+CALL AddNewAppointment(1, 2, 'Checkup for migraine');
+
+-- 2) Discharge patient (automatically frees the room via trigger)
+CALL DischargePatient(3);
+
+-- 3) Process payment for a bill (automatically updates balance via trigger)
+CALL ProcessPayment(2, 50.00);
+
+-- 4) Assign doctor to patient
+CALL AssignDoctorToPatient(3, 4);
+
+-- 5) Get comprehensive patient history (returns multiple datasets)
+CALL GetPatientHistory(1);
+
+-- end of checking if my stored procedures work *****************
+
+
+
+
+-- start of indexes *****************
+
+-- 1) Index on APPOINTMENTS.PatientID (frequently joined/filtered by patient)
+CREATE INDEX idx_appointments_patientID ON APPOINTMENTS(PatientID);
+
+-- 2) Index on APPOINTMENTS.DoctorID (frequently joined/filtered by doctor)
+CREATE INDEX idx_appointments_doctorID ON APPOINTMENTS(DoctorID);
+
+-- 3) Index on BILLS.AppointmentID (frequently joined with APPOINTMENTS)
+CREATE INDEX idx_bills_appointmentID ON BILLS(AppointmentID);
+
+-- end of indexes *****************
+
+
+
+
+-- checking if my indexes work *****************
+SHOW INDEX FROM APPOINTMENTS;
+SHOW INDEX FROM BILLS;
+-- end of checking if my indexes work *****************
+
+
+
+
+
 
