@@ -209,6 +209,9 @@ select * from appointments;
 alter table patients 
 add Room_use bool;
 
+-- set existing rows to 0 so NOT NULL constraint can be applied
+UPDATE PATIENTS SET Room_use = 0 WHERE Room_use IS NULL;
+
  -- adding a constraint 
 ALTER TABLE PATIENTS
 MODIFY COLUMN Room_use BOOL NOT NULL default 0;
