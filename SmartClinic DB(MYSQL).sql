@@ -593,5 +593,141 @@ SHOW INDEX FROM BILLS;
 
 
 
+-- start of subqueries *****************
+
+
+-- 1) Find patients who have at least one completed appointment
+SELECT PatientID, FullName
+FROM PATIENTS
+WHERE PatientID IN (
+    SELECT DISTINCT PatientID
+    FROM APPOINTMENTS
+    WHERE AppointmentStatus = 'Completed'
+);
+
+
+-- 2) Find doctors whose hourly pay is above the average hourly pay of all doctors
+SELECT DoctorID, FullName, Speciality, HourlyPay
+FROM DOCTORS
+WHERE HourlyPay > (
+    SELECT AVG(HourlyPay)
+    FROM DOCTORS
+);
+
+
+-- 3) List all bills where the total amount exceeds the average total amount across all bills
+SELECT BillID, TotalAmount, PaymentStatus, AppointmentID
+FROM BILLS
+WHERE TotalAmount > (
+    SELECT AVG(TotalAmount)
+    FROM BILLS
+);
+
+
+-- 4) Get each patient's name along with the number of appointments they have scheduled
+SELECT FullName,
+    (SELECT COUNT(*) 
+     FROM APPOINTMENTS a 
+     WHERE a.PatientID = p.PatientID 
+       AND a.AppointmentStatus = 'Scheduled') AS ScheduledAppointments
+FROM PATIENTS p;
+
+
+-- 5) Find patients who have never been assigned to any room (no room usage)
+SELECT PatientID, FullName, Phone
+FROM PATIENTS
+WHERE PatientID NOT IN (
+    SELECT DISTINCT PatientID
+    FROM APPOINTMENTS
+    WHERE PatientID IN (
+        SELECT PatientID
+        FROM PATIENTS
+        WHERE RoomID IS NOT NULL
+    )
+);
+
+
+-- 6) Get the doctor with the highest salary in the clinic
+SELECT DoctorID, FullName, Speciality, Salary
+FROM DOCTORS
+WHERE Salary = (
+    SELECT MAX(Salary)
+    FROM DOCTORS
+);
+
+
+-- 7) List appointments that have an associated unpaid bill
+SELECT AppointmentID, Diagnosis, AppointmentDate, AppointmentStatus
+FROM APPOINTMENTS
+WHERE AppointmentID IN (
+    SELECT AppointmentID
+    FROM BILLS
+    WHERE PaymentStatus = 'UnPaid'
+);
+
+
+-- 8) Find patients who have been prescribed more than one medication across all their appointments
+SELECT PatientID, FullName
+FROM PATIENTS
+WHERE PatientID IN (
+    SELECT a.PatientID
+    FROM APPOINTMENTS a
+    JOIN PRESCRIPTIONS pr ON a.AppointmentID = pr.AppointmentID
+    GROUP BY a.PatientID
+    HAVING COUNT(pr.PrescriptionID) > 1
+);
+
+
+-- end of subqueries *****************
+
+
+
+
+-- checking if my subqueries work *****************
+
+-- 1) Patients with at least one completed appointment
+SELECT PatientID, FullName
+FROM PATIENTS
+WHERE PatientID IN (
+    SELECT DISTINCT PatientID FROM APPOINTMENTS WHERE AppointmentStatus = 'Completed'
+);
+
+-- 2) Doctors earning above average hourly pay
+SELECT DoctorID, FullName, Speciality, HourlyPay
+FROM DOCTORS
+WHERE HourlyPay > (SELECT AVG(HourlyPay) FROM DOCTORS);
+
+-- 3) Bills above average total amount
+SELECT BillID, TotalAmount, PaymentStatus
+FROM BILLS
+WHERE TotalAmount > (SELECT AVG(TotalAmount) FROM BILLS);
+
+-- 4) Scheduled appointment count per patient
+SELECT FullName,
+    (SELECT COUNT(*) FROM APPOINTMENTS a WHERE a.PatientID = p.PatientID AND a.AppointmentStatus = 'Scheduled') AS ScheduledAppointments
+FROM PATIENTS p;
+
+-- 5) Patients never assigned to a room
+SELECT PatientID, FullName FROM PATIENTS
+WHERE PatientID NOT IN (SELECT DISTINCT PatientID FROM APPOINTMENTS WHERE PatientID IN (SELECT PatientID FROM PATIENTS WHERE RoomID IS NOT NULL));
+
+-- 6) Doctor with the highest salary
+SELECT DoctorID, FullName, Speciality, Salary FROM DOCTORS WHERE Salary = (SELECT MAX(Salary) FROM DOCTORS);
+
+-- 7) Appointments with unpaid bills
+SELECT AppointmentID, Diagnosis, AppointmentDate FROM APPOINTMENTS
+WHERE AppointmentID IN (SELECT AppointmentID FROM BILLS WHERE PaymentStatus = 'UnPaid');
+
+-- 8) Patients with more than one prescription
+SELECT PatientID, FullName FROM PATIENTS
+WHERE PatientID IN (
+    SELECT a.PatientID FROM APPOINTMENTS a
+    JOIN PRESCRIPTIONS pr ON a.AppointmentID = pr.AppointmentID
+    GROUP BY a.PatientID HAVING COUNT(pr.PrescriptionID) > 1
+);
+
+-- end of checking if my subqueries work *****************
+
+
 
 
